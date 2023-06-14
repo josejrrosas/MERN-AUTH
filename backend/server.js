@@ -26,6 +26,5 @@ const app = express()
 // app.listen method is used to start the server and make it listen for incoming requests.
 app.listen(port, () => console.log(`Server started on port: ${port}`));
 
-
 // ROUTES
 
