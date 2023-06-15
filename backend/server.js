@@ -1,6 +1,7 @@
 import express from "express";
 import dotenv from "dotenv";
 import userRoutes from "./routes/userRoutes.js";
+import {notFound, errorHandler} from "./middleware/errorMiddleware"
 
 dotenv.config();
 
@@ -30,6 +31,9 @@ app.use("/api/users", userRoutes);
  In this case, it uses the res object to send the response back to 
  the client with the message "Server is ready".*/
 app.get("/", (req, res) => res.send("Server is ready"));
+
+app.use(notFound);
+app.use(errorHandler);
 
 // app.listen method is used to start the server and make it listen for incoming requests.
 app.listen(port, () => console.log(`Server started on port: ${port}`));
