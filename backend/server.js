@@ -1,7 +1,7 @@
 import express from "express";
 import dotenv from "dotenv";
 import userRoutes from "./routes/userRoutes.js";
-import {notFound, errorHandler} from "./middleware/errorMiddleware"
+import {notFound, errorHandler} from "./middleware/errorMiddleware.js"
 
 dotenv.config();
 
