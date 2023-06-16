@@ -4,10 +4,9 @@ import userRoutes from "./routes/userRoutes.js";
 import {notFound, errorHandler} from "./middleware/errorMiddleware.js"
 import connectDB from "./config/db.js";
 
+dotenv.config();
 
 connectDB();
-
-dotenv.config();
 
 // this is gonna look at environment variable first
 const port = process.env.PORT || 3001;
