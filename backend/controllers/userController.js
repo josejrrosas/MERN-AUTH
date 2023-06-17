@@ -1,4 +1,5 @@
 import asyncHandler from "express-async-handler";
+import User from "../models/userModel.js";
 
 //asyncHandler allows us to use async await and not have to wrap
 //everything in try catches
@@ -14,7 +15,34 @@ const authUser = asyncHandler(async (req, res) => {
 //route     POST /api/users
 //@access   Public
 const registerUser = asyncHandler(async (req, res) => {
-  res.status(200).json({ message: "Register User" });
+  const { name, email, password } = req.body;
+
+  //checks if user exists by finding a single user by email
+  const userExsits = await User.findOne({ email });
+
+  //throws err if user exists, cus why would we want 2 emails in our system
+  if (userExsits) {
+    res.status(400);
+    throw new Error("User already exists");
+  }
+  //creates user
+  const user = await User.create({
+    name,
+    email,
+    password,
+  });
+
+  //if user creation successful, status is 201-success - add user to DB with Id
+  if (user) {
+    res.status(201).json({
+      _id: user._id,
+      name: user.name,
+      email: user.email,
+    });
+  } else {
+    res.status(400);
+    throw new Error("Invalid user data");
+  }
 });
 
 //@desc     Logout User

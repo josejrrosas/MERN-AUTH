@@ -5,7 +5,6 @@ import {notFound, errorHandler} from "./middleware/errorMiddleware.js"
 import connectDB from "./config/db.js";
 
 dotenv.config();
-
 connectDB();
 
 // this is gonna look at environment variable first
@@ -15,6 +14,10 @@ const port = process.env.PORT || 3001;
 defining routes, and specifying how the application should handle 
 incoming HTTP requests. */
 const app = express();
+
+
+app.use(express.json());
+app.use(express.urlencoded({extended:true}));
 
 /*
 The app.use() method is a built-in middleware function in Express 
