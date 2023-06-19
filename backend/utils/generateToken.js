@@ -3,7 +3,7 @@ import jwt from 'jsonwebtoken';
 //generate json webtoken and save it in http only cookie 
 const generateToken = (res, userId) =>{
     //adding userId to payload to validate token for the specific user
-    const token = jwt.sign({ userId }, process.env.JWT_secret,{
+    const token = jwt.sign({ userId }, process.env.JWT_SECRET,{
         expiresIn:'30d'
     });
     //save token in a cookie
