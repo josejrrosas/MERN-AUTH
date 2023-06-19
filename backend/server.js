@@ -1,8 +1,9 @@
 import express from "express";
 import dotenv from "dotenv";
 import userRoutes from "./routes/userRoutes.js";
-import {notFound, errorHandler} from "./middleware/errorMiddleware.js"
+import { notFound, errorHandler } from "./middleware/errorMiddleware.js";
 import connectDB from "./config/db.js";
+import cookieParser from "cookie-parser";
 
 dotenv.config();
 connectDB();
@@ -15,10 +16,10 @@ defining routes, and specifying how the application should handle
 incoming HTTP requests. */
 const app = express();
 
-
 app.use(express.json());
-app.use(express.urlencoded({extended:true}));
+app.use(express.urlencoded({ extended: true }));
 
+app.use(cookieParser());
 /*
 The app.use() method is a built-in middleware function in Express 
 that is used to mount middleware or sub-applications to specified paths. 
