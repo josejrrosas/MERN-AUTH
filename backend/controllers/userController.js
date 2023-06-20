@@ -1,6 +1,6 @@
 import asyncHandler from "express-async-handler";
 import User from "../models/userModel.js";
-import generateToken from '../utils/generateToken.js'
+import generateToken from "../utils/generateToken.js";
 
 //asyncHandler allows us to use async await and not have to wrap
 //everything in try catches
@@ -9,12 +9,12 @@ import generateToken from '../utils/generateToken.js'
 //route     POST /api/users/auth
 //@access   Public
 const authUser = asyncHandler(async (req, res) => {
-  const {email, password} = req.body;
+  const { email, password } = req.body;
 
-  const user = await User.findOne({email})
+  const user = await User.findOne({ email });
 
   //calls matchPassword from userModel
-  //this if statement allows to check for both email and password 
+  //this if statement allows to check for both email and password
   if (user && (await user.matchPassword(password))) {
     generateToken(res, user._id);
     res.status(201).json({
@@ -69,11 +69,11 @@ const registerUser = asyncHandler(async (req, res) => {
 //route     POST /api/users/logout
 //@access   Public
 const logoutUser = asyncHandler(async (req, res) => {
-//destroys cookie which in turn logs out user
-res.cookie('jwt', '', {
-  httpOnly: true,
-  expires: new Date(0),
-});
+  //destroys cookie which in turn logs out user
+  res.cookie("jwt", "", {
+    httpOnly: true,
+    expires: new Date(0),
+  });
 
   res.status(200).json({ message: "User logged out" });
 });
@@ -89,7 +89,28 @@ const getUserProfile = asyncHandler(async (req, res) => {
 //route     PUT /api/users/profile
 //@access   Private
 const updateUserProfile = asyncHandler(async (req, res) => {
-  res.status(200).json({ message: "Update User profile" });
+  const user = await User.findById(req.user._id);
+
+  if (user) {
+    user.name = req.body.name || user.name;
+    user.email = req.body.email || user.email;
+
+    if (req.body.password) {
+      user.password = req.body.password;
+    }
+
+    const updatedUser = await user.save();
+
+    //response in postman if successful
+    res.status(200).json({
+      _id: updatedUser._id,
+      name: updatedUser.name,
+      email: updatedUser.email,
+    });
+  } else {
+    res.status(404);
+    throw new Error("User not found");
+  }
 });
 
 export {
