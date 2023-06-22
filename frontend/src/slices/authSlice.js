@@ -15,9 +15,9 @@ const authSlice = createSlice({
     name: 'auth',
     initialState,
     reducers:{
-        //set user info to local storage 
-        //when we call this we're gonna pass the user in as an action, then we're gonna set it
-        //to our userInfo state and save that also to local storage
+        /*set user info to local storage when we call this we're gonna pass 
+        the user in as an action, then we're gonna set it to our userInfo state
+        and save that also to local storage*/
         setCredentials:(state, action) =>{
             //payload is gonna be the name, user, id and set it to localstorage
             state.userInfo = action.payload;

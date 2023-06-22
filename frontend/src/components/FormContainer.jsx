@@ -1,9 +1,7 @@
 import { Container, Row, Col } from "react-bootstrap";
-
 /*gonna wrap login and register form etc..,
 so take in prop of children bc whatever we wrap
 it in we want it to display in here*/
-// eslint-disable-next-line react/prop-types
 const FormContainer = ({ children }) => {
   return (
     <Container>
