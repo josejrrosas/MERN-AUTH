@@ -1,15 +1,50 @@
-import { useState } from "react";
-import {Link} from "react-router-dom";
+import { useState, useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { Form, Button, Row, Col } from "react-bootstrap";
 import FormContainer from "../components/FormContainer";
-
+//useDispatch to dispatch action, use selector to select from global state
+import { useDispatch, useSelector } from "react-redux";
+import { useLoginMutation } from "../slices/usersApiSlice";
+/*after we hit our backend, we get our user data we then 
+want to call setCredentials*/
+import { setCredentials } from "../slices/authSlice";
 const LoginScreen = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  //to call mutation, isLoading handles loading state for us, could get error if we want
+  const [login, { isLoading }] = useLoginMutation();
+
+  //we want auth bc thats what has our user info
+  const { userInfo } = useSelector((state) => state.auth);
+ 
+  /*if there is a user info that means we're logged in
+  so i want to redirect to homepage if logged in*/
+  useEffect(() => {
+    if (userInfo) {
+      navigate("/");
+    }
+  }, [navigate, userInfo]);
+
   const submitHandler = async (e) => {
     e.preventDefault();
-    console.log("submit");
+    try {
+      /*calling login above which is calling login from our mutation
+      login takes in data of email and password coming from the form
+      unwrap will unwrap the promise it returns*/
+      const res = await login({email, password}).unwrap();
+       /* we now want to call setCredentials to set it to local
+       storage and our state */
+      dispatch(setCredentials({...res}))
+      //then we navigate to homescreen
+      navigate('/')
+    } catch (err) {
+      //if bad email responds with 'invalid email or password'
+      console.log(err?.data?.message || err.error)
+    }
   };
 
   return (

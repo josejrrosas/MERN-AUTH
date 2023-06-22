@@ -1,4 +1,4 @@
-/*This is gonna implement the thunk middleare 
+/*This is gonna implement the thunk middleware 
 this is a parent to any other api slices, for this app its just for Users/
 Thunk middleware is a middleware for Redux that allows you to write 
 action creators that return functions instead of plain action objects.
