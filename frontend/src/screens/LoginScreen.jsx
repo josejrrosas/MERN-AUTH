@@ -8,6 +8,7 @@ import { useLoginMutation } from "../slices/usersApiSlice";
 /*after we hit our backend, we get our user data we then 
 want to call setCredentials*/
 import { setCredentials } from "../slices/authSlice";
+import {toast} from 'react-toastify'
 const LoginScreen = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -43,7 +44,7 @@ const LoginScreen = () => {
       navigate('/')
     } catch (err) {
       //if bad email responds with 'invalid email or password'
-      console.log(err?.data?.message || err.error)
+      toast.error(err?.data?.message || err.error)
     }
   };
 
