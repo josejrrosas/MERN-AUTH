@@ -15,13 +15,21 @@ export const usersApiSlice = apiSlice.injectEndpoints({
                 body:data
             })
         }),
+        register:builder.mutation({
+            query: (data) => ({
+                //if we make a post request to api/users thats our register
+                url: `${USERS_URL}`,
+                method: 'POST',
+                body:data
+            })
+        }),
         logout:builder.mutation({
             query: () => ({
                 url: `${USERS_URL}/logout`,
                 method: 'POST',
             })
-        })
+        }),
     })
 })
 //if we were using login:builder.query it would be useLoginQuery instead of mutation
-export const {useLoginMutation, useLogoutMutation} = usersApiSlice;
+export const {useLoginMutation, useLogoutMutation, useRegisterMutation} = usersApiSlice;
