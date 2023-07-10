@@ -28,13 +28,13 @@ SO that I can demonstrate and practice for future projects.
 
 # Installation
 
-$ git clone https://example.com
-$ cd ../path/to/the/file
-$ npm install
-$ npm start
+* git clone https://github.com/josejrrosas/MERN-AUTH
+* cd ../path/to/the/file
+* npm install
+* npm start
 
 # Usage
-* Create account
+* Register account
 
 * Login/Logout
 
