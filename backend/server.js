@@ -4,6 +4,7 @@ import userRoutes from "./routes/userRoutes.js";
 import { notFound, errorHandler } from "./middleware/errorMiddleware.js";
 import connectDB from "./config/db.js";
 import cookieParser from "cookie-parser";
+import path from 'path'
 
 dotenv.config();
 connectDB();
@@ -28,6 +29,13 @@ specified path or any subpaths.
 */
 app.use("/api/users", userRoutes);
 
+if(process.env.NODE_ENV === 'production'){
+    const __dirname = path.resolve();
+    app.use(express.static(path.join(__dirname, 'frontend/dist')));
+
+    app.get('*', (req,res) => res.sendFile(path.resolve(__dirname, 'frontend', 'dist', 'index.html')));
+}
+else{
 /* app.get method is used to define a route for handling GET requests.
  It takes two parameters: the route path ("/" in this case) and a 
  callback function that defines the behavior when that route is accessed.
@@ -37,7 +45,10 @@ app.use("/api/users", userRoutes);
  It takes two parameters: req (request) and res (response). 
  In this case, it uses the res object to send the response back to 
  the client with the message "Server is ready".*/
-app.get("/", (req, res) => res.send("Server is ready"));
+ app.get("/", (req, res) => res.send("Server is ready"));
+}
+
+
 
 app.use(notFound);
 app.use(errorHandler);
