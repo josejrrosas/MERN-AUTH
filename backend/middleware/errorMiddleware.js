@@ -7,6 +7,8 @@ const notFound = (req, res, next) => {
 }
 
 const errorHandler = (err,req, res, next) => {
+    //200 bc it is a successful error catch 
+    //changing from 200 to 500 bc, we want user to see that there was an error 
     let statusCode = res.statusCode === 200 ? 500 : res.statusCode;
     let message = err.message;
 
